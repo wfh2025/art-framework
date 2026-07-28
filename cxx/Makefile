@@ -24,7 +24,7 @@ deps: clean
 clean:
 	${RM} "${BUILD_DIR}"
 run: build
-	DYLD_LIBRARY_PATH=${BUILD_DIR}/lib ${BUILD_DIR}/bin/bin-cxx-feat
+	DYLD_LIBRARY_PATH=${BUILD_DIR}/lib ${BUILD_DIR}/bin/bin-leetcode
 print-%:
 	@echo $* = $($*)
 .PHONY: all clean build deps run generate

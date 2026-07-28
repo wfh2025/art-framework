@@ -9,3 +9,4 @@ set(ART_CXX_DEPS_DIR "${CMAKE_SOURCE_DIR}/deps")
 
 
 add_subdirectory(src/cxx-feat)
+add_subdirectory(src/leetcode)
