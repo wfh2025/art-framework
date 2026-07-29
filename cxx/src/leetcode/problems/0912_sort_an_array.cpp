@@ -7,37 +7,6 @@
 #include "spdlog/spdlog.h"
 #include "testdata/test_data.hpp"
 
-TEST(minimum_size_subarray_sum_209, 001)
-{
-    using namespace std;
-    class Solution
-    {
-    public:
-        int minSubArrayLen(int target, vector<int>& nums)
-        {
-            int l = 0;
-            int sum = 0;
-            int minLen = INT_MAX;
-            for (int r = 0; r < nums.size(); r++)
-            {
-                sum += nums[r];
-                while (sum >= target)
-                {
-                    minLen = std::min(minLen, r - l + 1);
-                    sum -= nums[l];
-                    l++;
-                }
-            }
-            return minLen == INT_MAX ? 0 : minLen;
-        }
-    };
-
-    Solution s;
-    std::vector<int> nums{2, 3, 1, 2, 4, 3};
-    int ret = s.minSubArrayLen(7, nums);
-    EXPECT_EQ(ret, 2);
-}
-
 TEST(sort_an_array_912, insertionSort)
 {
     using namespace std;
@@ -58,7 +27,7 @@ TEST(sort_an_array_912, insertionSort)
                     {
                         break;
                     }
-                    if (res[j] < cur)
+                    if (res[j] <= cur)
                     {
                         break;
                     }
@@ -79,8 +48,8 @@ TEST(sort_an_array_912, insertionSort)
     auto res = Solution().sortArray(input);
     EXPECT_TRUE(res == tgt);
 
-    SPDLOG_INFO("raw: {}", td::formatVecInt(raw, true));
-    SPDLOG_INFO("res: {}", td::formatVecInt(res, true));
+    SPDLOG_INFO("raw: {}", td::formatVecInt(raw, false));
+    SPDLOG_INFO("res: {}", td::formatVecInt(res, false));
 }
 
 TEST(sort_an_array_912, bubbleSort)
@@ -92,15 +61,22 @@ TEST(sort_an_array_912, bubbleSort)
     public:
         vector<int> sortArray(vector<int>& nums)
         {
-            std::vector<int> res = nums;
-            for (int i = 0; i < (res.size() - 1); i++)
+            auto res = nums;
+            for (int i = 0; i < ((int)res.size() - 1); i++)
             {
-                for (int j = 0; j < res.size() - i - 1; j++)
+                bool swapped = false;
+                for (int j = 0; j < ((int)res.size() - i - 1); j++)
                 {
                     if (res[j] > res[j + 1])
                     {
                         std::swap(res[j], res[j + 1]);
+                        swapped = true;
                     }
+                }
+                // 优化逻辑
+                if (false == swapped)
+                {
+                    break;
                 }
             }
             return res;
@@ -115,8 +91,8 @@ TEST(sort_an_array_912, bubbleSort)
     auto res = Solution().sortArray(input);
     EXPECT_TRUE(res == tgt);
 
-    SPDLOG_INFO("raw: {}", td::formatVecInt(raw, true));
-    SPDLOG_INFO("res: {}", td::formatVecInt(res, true));
+    SPDLOG_INFO("raw: {}", td::formatVecInt(raw, false));
+    SPDLOG_INFO("res: {}", td::formatVecInt(res, false));
 }
 
 TEST(sort_an_array_912, selectSort)
@@ -156,8 +132,8 @@ TEST(sort_an_array_912, selectSort)
     auto res = Solution().sortArray(input);
     EXPECT_TRUE(res == tgt);
 
-    SPDLOG_INFO("raw: {}", td::formatVecInt(raw, true));
-    SPDLOG_INFO("res: {}", td::formatVecInt(res, true));
+    SPDLOG_INFO("raw: {}", td::formatVecInt(raw, false));
+    SPDLOG_INFO("res: {}", td::formatVecInt(res, false));
 }
 
 TEST(sort_an_array_912, mergeSort)
@@ -234,8 +210,8 @@ TEST(sort_an_array_912, mergeSort)
     auto res = Solution().sortArray(input);
     EXPECT_TRUE(res == tgt);
 
-    SPDLOG_INFO("raw: {}", td::formatVecInt(raw, true));
-    SPDLOG_INFO("res: {}", td::formatVecInt(res, true));
+    SPDLOG_INFO("raw: {}", td::formatVecInt(raw, false));
+    SPDLOG_INFO("res: {}", td::formatVecInt(res, false));
 }
 
 TEST(sort_an_array_912, quickSort)
@@ -305,8 +281,8 @@ TEST(sort_an_array_912, quickSort)
     auto res = Solution().sortArray(input);
     EXPECT_TRUE(res == tgt);
 
-    SPDLOG_INFO("raw: {}", td::formatVecInt(raw, true));
-    SPDLOG_INFO("res: {}", td::formatVecInt(res, true));
+    SPDLOG_INFO("raw: {}", td::formatVecInt(raw, false));
+    SPDLOG_INFO("res: {}", td::formatVecInt(res, false));
 }
 
 TEST(sort_an_array_912, heapSort)
@@ -373,6 +349,6 @@ TEST(sort_an_array_912, heapSort)
     auto res = Solution().sortArray(input);
     EXPECT_TRUE(res == tgt);
 
-    SPDLOG_INFO("raw: {}", td::formatVecInt(raw, true));
-    SPDLOG_INFO("res: {}", td::formatVecInt(res, true));
+    SPDLOG_INFO("raw: {}", td::formatVecInt(raw, false));
+    SPDLOG_INFO("res: {}", td::formatVecInt(res, false));
 }
