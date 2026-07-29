@@ -254,22 +254,28 @@ TEST(sort_an_array_912, quickSort)
             return res;
         }
 
-        int partition(std::vector<int>& nums, int l, int r)
+        int partition(std::vector<int>& arr, int low, int high)
         {
-            int randomIdx = l + rand() % (r - l + 1);
-            std::swap(nums[randomIdx], nums[r]);
-            int pivot = nums[r];
-            int i = l;
-            for (int j = l; j < r; j++)
-            {
-                if (nums[j] < pivot)
+            // 增加随机性,可删除
+            int randomIdx = low + rand() % (high - low + 1);
+            std::swap(arr[randomIdx], arr[high]);
+
+            // 小区: [low, x-1]
+            // 大区: [x, i-1]
+            // 扫描: i
+            // 当arr[i] < pivotVal, swap(arr[x], arr[i])并且扩大小区域范围
+            int pivotIndex = high;
+            int x = low; // 小区边界
+            for (int i = low; i < high; i++)
+            { // 扫描,[low, high-1]
+                if (arr[i] < arr[pivotIndex])
                 {
-                    std::swap(nums[i], nums[j]);
-                    i++;
+                    std::swap(arr[x], arr[i]);
+                    x++;
                 }
             }
-            std::swap(nums[i], nums[r]);
-            return i;
+            std::swap(arr[x], arr[pivotIndex]);
+            return x; // 基准值所在的索引
         }
     };
 
