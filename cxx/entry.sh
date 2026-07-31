@@ -10,6 +10,33 @@ export PROJ_CXX=$(which c++)
 function build-deps() {
     build-googletest
     build-spdlog
+    build-ogdf
+}
+
+function build-ogdf() {
+    local build_dir="${PROJ_BUILD}"
+    local install_dir="${PROJ_DEPS}/ogdf"
+    local src="${PROJ_ROOT}/vendor/ogdf-foxglove-202510"
+
+    rm -fr "${build_dir}" "${install_dir}" && mkdir -p "${install_dir}"
+
+    ${PROJ_CMAKE} -B "${build_dir}" \
+          -S "${src}" \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_CXX_COMPILER="${PROJ_CXX}" \
+          -DCMAKE_INSTALL_PREFIX="${install_dir}" \
+          -DBUILD_SHARED_LIBS=OFF \
+          -DDOC_INSTALL=OFF \
+          -DOGDF_ENABLE_CLANG_TIDY=OFF \
+          -DOGDF_LIBRARY_TARGETS_ONLY=ON \
+          -DOGDF_USE_ASSERT_EXCEPTIONS=ON \
+          -DOGDF_SEPARATE_TESTS=OFF \
+          -DOGDF_WARNING_ERRORS=OFF \
+          -DCMAKE_CXX_FLAGS="-Werror -Wno-deprecated-declarations -Wno-sign-compare -Wno-unused-variable" \
+          -DCMAKE_C_FLAGS="-Werror -Wno-deprecated-declarations -Wno-sign-compare -Wno-unused-variable" 
+    ${PROJ_CMAKE} --build "${PROJ_BUILD}" --parallel --target install
+
+    rm -fr "${build_dir}"
 }
 
 function build-tinyformat() {
