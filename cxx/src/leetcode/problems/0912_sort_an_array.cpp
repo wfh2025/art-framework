@@ -1,16 +1,7 @@
-
-#include <algorithm>
-#include <vector>
-
-#include "gmock/gmock.h"
-#include "gtest/gtest.h"
-#include "spdlog/spdlog.h"
-#include "testdata/test_data.hpp"
+#include "leetcode_public.hpp"
 
 TEST(sort_an_array_912, insertionSort)
 {
-    using namespace std;
-
     class Solution
     {
     public:
@@ -54,8 +45,6 @@ TEST(sort_an_array_912, insertionSort)
 
 TEST(sort_an_array_912, bubbleSort)
 {
-    using namespace std;
-
     class Solution
     {
     public:
@@ -97,8 +86,6 @@ TEST(sort_an_array_912, bubbleSort)
 
 TEST(sort_an_array_912, selectSort)
 {
-    using namespace std;
-
     class Solution
     {
     public:
@@ -138,8 +125,6 @@ TEST(sort_an_array_912, selectSort)
 
 TEST(sort_an_array_912, mergeSort)
 {
-    using namespace std;
-
     class Solution
     {
     public:
@@ -198,6 +183,106 @@ TEST(sort_an_array_912, mergeSort)
             for (int p = 0; p < tmp.size(); p++)
             {
                 nums[l + p] = tmp[p];
+            }
+        }
+    };
+
+    auto raw = td::VEC_INT_LEN50000_01;
+    auto input = raw;
+    auto tgt = input;
+
+    std::sort(tgt.begin(), tgt.end());
+    auto res = Solution().sortArray(input);
+    EXPECT_TRUE(res == tgt);
+
+    SPDLOG_INFO("raw: {}", td::formatVecInt(raw, false));
+    SPDLOG_INFO("res: {}", td::formatVecInt(res, false));
+}
+
+TEST(sort_an_array_912, mergeSort_recursive)
+{
+    class Solution
+    {
+    public:
+        vector<int> sortArray(vector<int>& nums)
+        {
+            auto arr = nums;
+            mergeSort(arr, 0, arr.size() - 1);
+            return arr;
+        }
+
+        void mergeSort(std::vector<int>& arr, int left, int right)
+        {
+            if (left >= right)
+            {
+                return;
+            }
+            int mid = left + (right - left) / 2;
+            mergeSort(arr, left, mid);
+            mergeSort(arr, mid + 1, right);
+            merge(arr, left, mid, right);
+        }
+        void merge(std::vector<int>& arr, int left, int mid, int right)
+        {
+            // [left, mid]
+            // [mid+1, right]
+            int lSize = mid - left + 1;
+            int rSize = right - mid;
+            std::vector<int> lVec(lSize);
+            std::vector<int> rVec(rSize);
+
+            for (int i = 0; i < lSize; i++)
+            {
+                lVec[i] = arr[left + i];
+            }
+
+            for (int i = 0; i < rSize; i++)
+            {
+                rVec[i] = arr[mid + 1 + i];
+            }
+
+            int l = 0;
+            int r = 0;
+            int k = left;
+            while (true)
+            {
+                if (l >= lSize || r >= rSize)
+                {
+                    break;
+                }
+                if (lVec[l] <= rVec[r])
+                {
+                    arr[k] = lVec[l];
+                    l++;
+                }
+                else
+                {
+                    arr[k] = rVec[r];
+                    r++;
+                }
+                k++;
+            }
+
+            while (true)
+            {
+                if (l >= lSize)
+                {
+                    break;
+                }
+                arr[k] = lVec[l];
+                l++;
+                k++;
+            }
+
+            while (true)
+            {
+                if (r >= rSize)
+                {
+                    break;
+                }
+                arr[k] = rVec[r];
+                r++;
+                k++;
             }
         }
     };

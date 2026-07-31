@@ -1,11 +1,4 @@
-
-#include <algorithm>
-#include <vector>
-
-#include "gmock/gmock.h"
-#include "gtest/gtest.h"
-#include "spdlog/spdlog.h"
-#include "testdata/test_data.hpp"
+#include "leetcode_public.hpp"
 
 TEST(minimum_size_subarray_sum_209, 001)
 {

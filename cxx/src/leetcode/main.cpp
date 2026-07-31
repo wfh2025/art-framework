@@ -13,7 +13,7 @@ struct TestCaseId
 };
 
 static std::vector<TestCaseId> g_runCases = {
-    {"*", "*"},
+    {"*_704", "*"},
 };
 
 static void runCases()
