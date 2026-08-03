@@ -16,6 +16,7 @@ set_target_properties("${TARGET_NAME}" PROPERTIES CXX_STANDARD 20
 
 target_include_directories("${TARGET_NAME}" PRIVATE "${CMAKE_SOURCE_DIR}"
                                                     "${CMAKE_CURRENT_SOURCE_DIR}"
+                                                    "${CMAKE_CURRENT_SOURCE_DIR}/include"
                                          
 )
 
