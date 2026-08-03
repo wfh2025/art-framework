@@ -7,10 +7,10 @@ TEST(sort_an_array_912, insertionSort)
     public:
         vector<int> sortArray(vector<int>& nums)
         {
-            std::vector<int> res = nums;
-            for (int i = 1; i < res.size(); i++)
+            auto& arr = nums;
+            for (int i = 1; i < arr.size(); i++)
             {
-                int cur = res[i];
+                int cur = arr[i];
                 int j = i - 1;
                 while (true)
                 {
@@ -18,16 +18,16 @@ TEST(sort_an_array_912, insertionSort)
                     {
                         break;
                     }
-                    if (res[j] <= cur)
+                    if (cur >= arr[j])
                     {
                         break;
                     }
-                    res[j + 1] = res[j];
+                    arr[j + 1] = arr[j];
                     j--;
                 }
-                res[j + 1] = cur;
+                arr[j + 1] = cur;
             }
-            return res;
+            return arr;
         }
     };
 
@@ -39,8 +39,10 @@ TEST(sort_an_array_912, insertionSort)
     auto res = Solution().sortArray(input);
     EXPECT_TRUE(res == tgt);
 
+#if 0
     SPDLOG_INFO("raw: {}", td::formatVecInt(raw, false));
     SPDLOG_INFO("res: {}", td::formatVecInt(res, false));
+#endif
 }
 
 TEST(sort_an_array_912, bubbleSort)
@@ -79,9 +81,10 @@ TEST(sort_an_array_912, bubbleSort)
     std::sort(tgt.begin(), tgt.end());
     auto res = Solution().sortArray(input);
     EXPECT_TRUE(res == tgt);
-
+#if 0
     SPDLOG_INFO("raw: {}", td::formatVecInt(raw, false));
     SPDLOG_INFO("res: {}", td::formatVecInt(res, false));
+#endif
 }
 
 TEST(sort_an_array_912, selectSort)
@@ -118,9 +121,10 @@ TEST(sort_an_array_912, selectSort)
     std::sort(tgt.begin(), tgt.end());
     auto res = Solution().sortArray(input);
     EXPECT_TRUE(res == tgt);
-
+#if 0
     SPDLOG_INFO("raw: {}", td::formatVecInt(raw, false));
     SPDLOG_INFO("res: {}", td::formatVecInt(res, false));
+#endif
 }
 
 TEST(sort_an_array_912, mergeSort)
@@ -194,9 +198,10 @@ TEST(sort_an_array_912, mergeSort)
     std::sort(tgt.begin(), tgt.end());
     auto res = Solution().sortArray(input);
     EXPECT_TRUE(res == tgt);
-
+#if 0
     SPDLOG_INFO("raw: {}", td::formatVecInt(raw, false));
     SPDLOG_INFO("res: {}", td::formatVecInt(res, false));
+#endif
 }
 
 TEST(sort_an_array_912, mergeSort_recursive)
@@ -222,6 +227,7 @@ TEST(sort_an_array_912, mergeSort_recursive)
             mergeSort(arr, mid + 1, right);
             merge(arr, left, mid, right);
         }
+
         void merge(std::vector<int>& arr, int left, int mid, int right)
         {
             // [left, mid]
@@ -294,15 +300,71 @@ TEST(sort_an_array_912, mergeSort_recursive)
     std::sort(tgt.begin(), tgt.end());
     auto res = Solution().sortArray(input);
     EXPECT_TRUE(res == tgt);
-
+#if 0
     SPDLOG_INFO("raw: {}", td::formatVecInt(raw, false));
     SPDLOG_INFO("res: {}", td::formatVecInt(res, false));
+#endif
+}
+
+TEST(sort_an_array_912, quickSort_recursive)
+{
+    class Solution
+    {
+    public:
+        vector<int> sortArray(vector<int>& nums)
+        {
+            auto arr = nums;
+            std::srand(std::time(nullptr));
+            quickSort(arr, 0, nums.size() - 1);
+            return arr;
+        }
+
+        void quickSort(std::vector<int>& arr, int low, int high)
+        {
+            if (low >= high)
+            {
+                return;
+            }
+            int pivotIndex = partition(arr, low, high);
+            quickSort(arr, low, pivotIndex - 1);
+            quickSort(arr, pivotIndex + 1, high);
+        }
+
+        int partition(std::vector<int>& arr, int low, int high)
+        {
+            int randomIdx = low + rand() % (high - low + 1);
+            std::swap(arr[randomIdx], arr[high]);
+            int pivotIndex = high;
+            // 小区: [low, x-1]
+            // 大区: [x, i-1]
+            // 扫描: i
+            // 当arr[i] < pivotVal, swap(arr[x], arr[i])并且扩大小区域范围
+            int x = low;
+            for (int i = low; i < high; i++)
+            {
+                if (arr[i] < arr[pivotIndex])
+                {
+                    std::swap(arr[i], arr[x]);
+                    x++;
+                }
+            }
+            std::swap(arr[x], arr[pivotIndex]);
+
+            return x;
+        }
+    };
+
+    auto raw = td::VEC_INT_LEN50000_01;
+    auto input = raw;
+    auto tgt = input;
+
+    std::sort(tgt.begin(), tgt.end());
+    auto res = Solution().sortArray(input);
+    EXPECT_TRUE(res == tgt);
 }
 
 TEST(sort_an_array_912, quickSort)
 {
-    using namespace std;
-
     class Solution
     {
     public:
@@ -372,66 +434,66 @@ TEST(sort_an_array_912, quickSort)
     auto res = Solution().sortArray(input);
     EXPECT_TRUE(res == tgt);
 
+#if 0
     SPDLOG_INFO("raw: {}", td::formatVecInt(raw, false));
     SPDLOG_INFO("res: {}", td::formatVecInt(res, false));
+#endif
 }
 
 TEST(sort_an_array_912, heapSort)
 {
-    using namespace std;
-
     class Solution
     {
     public:
         vector<int> sortArray(vector<int>& nums)
         {
-            std::vector<int> res = nums;
-            if (res.size() <= 1)
-            {
-                return res;
-            }
-            for (int i = res.size() / 2 - 1; i >= 0; i--)
-            {
-                heapify(res, res.size(), i);
-            }
-            for (int i = res.size() - 1; i > 0; i--)
-            {
-                swap(res[0], res[i]);
-                heapify(res, i, 0);
-            }
-            return res;
+            auto arr = nums;
+            heapSort(arr);
+            return arr;
         }
 
-    private:
-        void heapify(std::vector<int>& nums, int n, int root)
+        void heapSort(std::vector<int>& arr)
         {
+            for (int i = (int)arr.size() / 2 - 1; i >= 0; i--)
+            {
+                siftDown(arr, arr.size(), i);
+            }
+
+            for (int i = (int)arr.size() - 1; i > 0; i--)
+            {
+                std::swap(arr[0], arr[i]);
+                siftDown(arr, i, 0);
+            }
+        }
+
+        void siftDown(std::vector<int>& arr, int n, int root)
+        {
+            int cur = root;
             while (true)
             {
-                int largest = root;
-                int left = 2 * root + 1;
-                int right = 2 * root + 2;
+                int left = 2 * cur + 1;
+                int right = 2 * cur + 2;
+                int large = cur;
 
-                if (left < n && nums[left] > nums[largest])
+                if ((left < n) && (arr[left] > arr[large]))
                 {
-                    largest = left;
+                    large = left;
                 }
 
-                if (right < n && nums[right] > nums[largest])
+                if ((right < n) && (arr[right] > arr[large]))
                 {
-                    largest = right;
+                    large = right;
                 }
 
-                if (largest == root)
+                if (large == cur)
                 {
                     break;
                 }
-
-                std::swap(nums[root], nums[largest]);
-                root = largest;
+                std::swap(arr[large], arr[cur]);
+                cur = large;
             }
         }
     };
-
     auto raw = td::VEC_INT_LEN50000_01;
     auto input = raw;
     auto tgt = input;
@@ -440,6 +502,8 @@ TEST(sort_an_array_912, heapSort)
     auto res = Solution().sortArray(input);
     EXPECT_TRUE(res == tgt);
 
+#if 0
     SPDLOG_INFO("raw: {}", td::formatVecInt(raw, false));
     SPDLOG_INFO("res: {}", td::formatVecInt(res, false));
+#endif
 }
