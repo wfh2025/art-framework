@@ -1,6 +1,6 @@
 #include "leetcode/leetcode.hpp"
 
-TEST(maximum_depth_of_binary_tree, recursive)
+TEST(maximum_depth_of_binary_tree_104, recursive)
 {
     class Solution
     {
@@ -31,9 +31,7 @@ TEST(maximum_depth_of_binary_tree, recursive)
     }
 }
 
-#include "leetcode/leetcode.hpp"
-
-TEST(maximum_depth_of_binary_tree, queue)
+TEST(maximum_depth_of_binary_tree_104, queue)
 {
     class Solution
     {
