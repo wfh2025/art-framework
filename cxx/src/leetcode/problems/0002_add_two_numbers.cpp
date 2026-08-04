@@ -1,5 +1,4 @@
-#include "leetcode_public.hpp"
-
+#include "leetcode/leetcode.hpp"
 TEST(add_two_numbers_3, 001)
 {
     class Solution

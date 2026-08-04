@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 
-#include "leetcode_structs.hpp"
+#include "leetcode/core/leetcode_structs.hpp"
 
 namespace td
 {
@@ -17,4 +17,9 @@ namespace td
     ListNode* createList(const std::vector<int>& arr);
     std::vector<int> listToVec(ListNode* head);
     void deleteList(ListNode* head);
+
+    // tree
+    TreeNode* createTree(const std::vector<int>& vals);
+    void deleteTree(TreeNode* root);
+
 } // namespace td

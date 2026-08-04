@@ -1,5 +1,9 @@
 #pragma once
 
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+#include <spdlog/spdlog.h>
+
 #include <algorithm>
 #include <cstdint>
 #include <list>
@@ -11,9 +15,6 @@
 #include <utility>
 #include <vector>
 
-#include "gmock/gmock.h"
-#include "gtest/gtest.h"
-#include "spdlog/spdlog.h"
-#include "testdata/test_data.hpp"
+#include "leetcode/testdata/test_data.hpp"
 
 using namespace std;

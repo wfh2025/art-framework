@@ -1,4 +1,4 @@
-#include "leetcode_public.hpp"
+#include "leetcode/leetcode.hpp"
 
 TEST(merge_intervals_56, 001)
 {

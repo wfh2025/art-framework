@@ -1,4 +1,4 @@
-#include "leetcode_public.hpp"
+#include "leetcode/leetcode.hpp"
 
 TEST(sort_an_array_912, insertionSort)
 {

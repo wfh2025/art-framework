@@ -1,4 +1,4 @@
-#include "leetcode_public.hpp"
+#include "leetcode/leetcode.hpp"
 
 TEST(lru_cache_146, 001)
 {

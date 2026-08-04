@@ -1,7 +1,8 @@
+#include <spdlog/spdlog.h>
+
 #include <vector>
 
-#include "spdlog/spdlog.h"
-#include "test_data.hpp"
+#include "leetcode/testdata/test_data.hpp"
 
 namespace td
 {

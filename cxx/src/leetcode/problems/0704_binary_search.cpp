@@ -1,4 +1,4 @@
-#include "leetcode_public.hpp"
+#include "leetcode/leetcode.hpp"
 
 TEST(binary_search_704, 001)
 {

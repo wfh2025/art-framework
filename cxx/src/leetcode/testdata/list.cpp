@@ -1,6 +1,6 @@
 #include <vector>
 
-#include "leetcode_structs.hpp"
+#include "leetcode/core/leetcode_structs.hpp"
 
 namespace td
 {

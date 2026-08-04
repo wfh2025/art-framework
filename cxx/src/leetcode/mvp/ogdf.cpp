@@ -1,3 +1,5 @@
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 #include <ogdf/basic/Graph.h>
 #include <ogdf/basic/GraphAttributes.h>
 #include <ogdf/basic/geometry.h>
@@ -5,15 +7,13 @@
 #include <ogdf/fileformats/GraphIO.h>
 #include <ogdf/layered/DfsAcyclicSubgraph.h>
 #include <ogdf/tree/TreeLayout.h>
+#include <spdlog/spdlog.h>
 
 #include <algorithm>
 #include <string>
 #include <vector>
 
-#include "gmock/gmock.h"
-#include "gtest/gtest.h"
-#include "spdlog/spdlog.h"
-#include "testdata/test_data.hpp"
+#include "leetcode/testdata/test_data.hpp"
 
 TEST(mvp_ogdf, dot)
 {
