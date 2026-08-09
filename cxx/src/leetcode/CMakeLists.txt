@@ -25,7 +25,7 @@ file(GLOB MVP_FILES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/mvp/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/mvp/*.cxx"
 )
-file(GLOB PROBLEM_FILES CONFIGURE_DEPENDS 
+file(GLOB PROBLEMS_FILES CONFIGURE_DEPENDS 
     "${CMAKE_CURRENT_SOURCE_DIR}/problems/*.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/problems/*.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/problems/*.cpp"
@@ -37,9 +37,17 @@ file(GLOB TESTDATA_FILES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/testdata/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/testdata/*.cxx"
 )
-target_sources("${TARGET_NAME}" PRIVATE ${MVP_FILES} 
+file(GLOB PRACTICES_FILES CONFIGURE_DEPENDS 
+    "${CMAKE_CURRENT_SOURCE_DIR}/practices/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/practices/*.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/practices/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/practices/*.cxx"
+)
+target_sources("${TARGET_NAME}" PRIVATE ${MVP_FILES}
+                                        ${PRACTICES_FILES}
+                                        ${PROBLEMS_FILES}
                                         ${TESTDATA_FILES}
-                                        ${PROBLEM_FILES}
+                                        
 )
 
 target_compile_definitions("${TARGET_NAME}" PRIVATE
