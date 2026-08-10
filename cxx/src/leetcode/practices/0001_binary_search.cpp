@@ -5,8 +5,8 @@ TEST(practices_binary_search_1, basic)
     // 标准二分查找, 数组无重复
     auto binarySearch = [](const std::vector<int>& nums, int target) -> int {
         int l = 0;
-        int r = nums.size() - 1;
-        while (l <= r)
+        int r = nums.size();
+        while (l < r)
         {
             int mid = l + (r - l) / 2;
             if (nums[mid] == target)
@@ -15,7 +15,7 @@ TEST(practices_binary_search_1, basic)
             }
             else if (nums[mid] > target)
             {
-                r = mid - 1;
+                r = mid;
             }
             else
             {
@@ -40,15 +40,15 @@ TEST(practices_binary_search_1, findFirstEqual)
         const auto& arr = nums;
         int ans = -1;
         int l = 0;
-        int r = arr.size() - 1;
+        int r = arr.size();
 
-        while (l <= r)
+        while (l < r)
         {
             int mid = l + (r - l) / 2;
             if (arr[mid] == target)
             {
                 ans = mid;
-                r = mid - 1;
+                r = mid;
             }
             else if (arr[mid] < target)
             {
@@ -56,7 +56,7 @@ TEST(practices_binary_search_1, findFirstEqual)
             }
             else
             {
-                r = mid - 1;
+                r = mid;
             }
         }
         return ans;
@@ -73,9 +73,9 @@ TEST(practices_binary_search_1, findLastEqual)
     auto findLastEqual = [](const std::vector<int>& nums, int target) -> int {
         const auto& arr = nums;
         int l = 0;
-        int r = arr.size() - 1;
+        int r = arr.size();
         int ans = -1;
-        while (l <= r)
+        while (l < r)
         {
             int mid = l + (r - l) / 2;
             if (arr[mid] == target)
@@ -89,7 +89,7 @@ TEST(practices_binary_search_1, findLastEqual)
             }
             else
             {
-                r = mid - 1;
+                r = mid;
             }
         }
         return ans;
@@ -106,15 +106,15 @@ TEST(practices_binary_search_1, lowerBound)
     auto lowerBound = [](const std::vector<int>& nums, int target) -> int {
         const auto& arr = nums;
         int l = 0;
-        int r = arr.size() - 1;
+        int r = arr.size();
         int ans = arr.size();
-        while (l <= r)
+        while (l < r)
         {
             int mid = l + (r - l) / 2;
             if (arr[mid] == target)
             {
                 ans = mid;
-                r = mid - 1;
+                r = mid;
             }
             else if (arr[mid] < target)
             {
@@ -123,7 +123,7 @@ TEST(practices_binary_search_1, lowerBound)
             else
             {
                 ans = mid;
-                r = mid - 1;
+                r = mid;
             }
         }
 
@@ -143,8 +143,8 @@ TEST(practices_binary_search_1, upperBound)
         const auto& arr = nums;
         int ans = arr.size();
         int l = 0;
-        int r = arr.size() - 1;
-        while (l <= r)
+        int r = arr.size();
+        while (l < r)
         {
             int mid = l + (r - l) / 2;
             if (arr[mid] == target)
@@ -158,7 +158,7 @@ TEST(practices_binary_search_1, upperBound)
             else
             {
                 ans = mid;
-                r = mid - 1;
+                r = mid;
             }
         }
         return ans;
@@ -175,15 +175,15 @@ TEST(practices_binary_search_1, lastLessThan)
     auto lastLessThan = [](const std::vector<int>& nums, int target) -> int {
         const auto& arr = nums;
         int l = 0;
-        int r = arr.size() - 1;
+        int r = arr.size();
         int ans = -1;
 
-        while (l <= r)
+        while (l < r)
         {
             int mid = l + (r - l) / 2;
             if (arr[mid] == target)
             {
-                r = mid - 1;
+                r = mid;
             }
             else if (arr[mid] < target)
             {
@@ -192,7 +192,7 @@ TEST(practices_binary_search_1, lastLessThan)
             }
             else
             {
-                r = mid - 1;
+                r = mid;
             }
         }
         return ans;
@@ -210,9 +210,9 @@ TEST(practices_binary_search_1, lastLessEqual)
     auto lastLessEqual = [](const std::vector<int>& nums, int target) -> int {
         const auto& arr = nums;
         int l = 0;
-        int r = arr.size() - 1;
+        int r = arr.size();
         int ans = -1;
-        while (l <= r)
+        while (l < r)
         {
             int mid = l + (r - l) / 2;
             if (arr[mid] == target)
@@ -227,7 +227,7 @@ TEST(practices_binary_search_1, lastLessEqual)
             }
             else
             {
-                r = mid - 1;
+                r = mid;
             }
         }
         return ans;
