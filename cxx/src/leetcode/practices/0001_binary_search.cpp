@@ -105,14 +105,19 @@ TEST(practices_binary_search_1, lowerBound)
         while (left <= right)
         {
             int mid = left + (right - left) / 2;
-            if (nums[mid] >= target)
+            if (nums[mid] == target)
             {
-                ans = mid; // 满足条件，记录并尝试更左
+                ans = mid;
                 right = mid - 1;
+            }
+            else if (nums[mid] < target)
+            {
+                left = mid + 1;
             }
             else
             {
-                left = mid + 1;
+                ans = mid;
+                right = mid - 1;
             }
         }
         return ans;
@@ -133,14 +138,18 @@ TEST(practices_binary_search_1, upperBound)
         while (left <= right)
         {
             int mid = left + (right - left) / 2;
-            if (nums[mid] > target)
+            if (nums[mid] == target)
             {
-                ans = mid;
-                right = mid - 1;
+                left = mid + 1;
+            }
+            else if (nums[mid] < target)
+            {
+                left = mid + 1;
             }
             else
             {
-                left = mid + 1;
+                ans = mid;
+                right = mid - 1;
             }
         }
         return ans;
@@ -160,7 +169,11 @@ TEST(practices_binary_search_1, lastLessThan)
         while (left <= right)
         {
             int mid = left + (right - left) / 2;
-            if (nums[mid] < target)
+            if (nums[mid] == target)
+            {
+                right = mid - 1;
+            }
+            else if (nums[mid] < target)
             {
                 ans = mid; // 满足条件，尝试更右
                 left = mid + 1;
@@ -188,7 +201,12 @@ TEST(practices_binary_search_1, lastLessEqual)
         while (left <= right)
         {
             int mid = left + (right - left) / 2;
-            if (nums[mid] <= target)
+            if (nums[mid] == target)
+            {
+                ans = mid;
+                left = mid + 1;
+            }
+            else if (nums[mid] < target)
             {
                 ans = mid;
                 left = mid + 1;
