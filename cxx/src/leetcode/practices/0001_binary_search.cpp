@@ -4,22 +4,22 @@ TEST(practices_binary_search_1, basic)
 {
     // 标准二分查找, 数组无重复
     auto binarySearch = [](const std::vector<int>& nums, int target) -> int {
-        int left = 0;
-        int right = nums.size() - 1;
-        while (left <= right)
+        int l = 0;
+        int r = nums.size() - 1;
+        while (l <= r)
         {
-            int mid = left + (right - left) / 2;
+            int mid = l + (r - l) / 2;
             if (nums[mid] == target)
             {
                 return mid;
             }
-            else if (nums[mid] < target)
+            else if (nums[mid] > target)
             {
-                left = mid + 1;
+                r = mid - 1;
             }
             else
             {
-                right = mid - 1;
+                l = mid + 1;
             }
         }
         return -1;
@@ -37,24 +37,26 @@ TEST(practices_binary_search_1, findFirstEqual)
 {
     // 查找第一个等于 target 的位置（下界）
     auto findFirstEqual = [](const std::vector<int>& nums, int target) -> int {
-        int left = 0;
-        int right = nums.size() - 1;
+        const auto& arr = nums;
         int ans = -1;
-        while (left <= right)
+        int l = 0;
+        int r = arr.size() - 1;
+
+        while (l <= r)
         {
-            int mid = left + (right - left) / 2;
-            if (nums[mid] == target)
+            int mid = l + (r - l) / 2;
+            if (arr[mid] == target)
             {
-                ans = mid; // 记录当前，继续向左找
-                right = mid - 1;
+                ans = mid;
+                r = mid - 1;
             }
-            else if (nums[mid] < target)
+            else if (arr[mid] < target)
             {
-                left = mid + 1;
+                l = mid + 1;
             }
             else
             {
-                right = mid - 1;
+                r = mid - 1;
             }
         }
         return ans;
@@ -69,23 +71,25 @@ TEST(practices_binary_search_1, findLastEqual)
 {
     // 查找最后一个等于 target 的位置（上界）
     auto findLastEqual = [](const std::vector<int>& nums, int target) -> int {
-        int left = 0, right = nums.size() - 1;
+        const auto& arr = nums;
+        int l = 0;
+        int r = arr.size() - 1;
         int ans = -1;
-        while (left <= right)
+        while (l <= r)
         {
-            int mid = left + (right - left) / 2;
-            if (nums[mid] == target)
+            int mid = l + (r - l) / 2;
+            if (arr[mid] == target)
             {
-                ans = mid; // 记录当前，继续向右找
-                left = mid + 1;
+                ans = mid;
+                l = mid + 1;
             }
-            else if (nums[mid] < target)
+            else if (arr[mid] < target)
             {
-                left = mid + 1;
+                l = mid + 1;
             }
             else
             {
-                right = mid - 1;
+                r = mid - 1;
             }
         }
         return ans;
@@ -100,26 +104,29 @@ TEST(practices_binary_search_1, lowerBound)
 {
     // 查找第一个 >= target 的位置（lower_bound）
     auto lowerBound = [](const std::vector<int>& nums, int target) -> int {
-        int left = 0, right = nums.size() - 1;
-        int ans = nums.size(); // 默认插入到末尾
-        while (left <= right)
+        const auto& arr = nums;
+        int l = 0;
+        int r = arr.size() - 1;
+        int ans = arr.size();
+        while (l <= r)
         {
-            int mid = left + (right - left) / 2;
-            if (nums[mid] == target)
+            int mid = l + (r - l) / 2;
+            if (arr[mid] == target)
             {
                 ans = mid;
-                right = mid - 1;
+                r = mid - 1;
             }
-            else if (nums[mid] < target)
+            else if (arr[mid] < target)
             {
-                left = mid + 1;
+                l = mid + 1;
             }
             else
             {
                 ans = mid;
-                right = mid - 1;
+                r = mid - 1;
             }
         }
+
         return ans;
     };
     std::vector<int> nums = {1, 3, 5, 6};
@@ -133,23 +140,25 @@ TEST(practices_binary_search_1, upperBound)
 {
     // 查找第一个 > target 的位置（upper_bound）
     auto upperBound = [](const std::vector<int>& nums, int target) -> int {
-        int left = 0, right = nums.size() - 1;
-        int ans = nums.size();
-        while (left <= right)
+        const auto& arr = nums;
+        int ans = arr.size();
+        int l = 0;
+        int r = arr.size() - 1;
+        while (l <= r)
         {
-            int mid = left + (right - left) / 2;
-            if (nums[mid] == target)
+            int mid = l + (r - l) / 2;
+            if (arr[mid] == target)
             {
-                left = mid + 1;
+                l = mid + 1;
             }
-            else if (nums[mid] < target)
+            else if (arr[mid] < target)
             {
-                left = mid + 1;
+                l = mid + 1;
             }
             else
             {
                 ans = mid;
-                right = mid - 1;
+                r = mid - 1;
             }
         }
         return ans;
@@ -164,23 +173,26 @@ TEST(practices_binary_search_1, lastLessThan)
 {
     // 查找最后一个 < target 的位置
     auto lastLessThan = [](const std::vector<int>& nums, int target) -> int {
-        int left = 0, right = nums.size() - 1;
+        const auto& arr = nums;
+        int l = 0;
+        int r = arr.size() - 1;
         int ans = -1;
-        while (left <= right)
+
+        while (l <= r)
         {
-            int mid = left + (right - left) / 2;
-            if (nums[mid] == target)
+            int mid = l + (r - l) / 2;
+            if (arr[mid] == target)
             {
-                right = mid - 1;
+                r = mid - 1;
             }
-            else if (nums[mid] < target)
+            else if (arr[mid] < target)
             {
-                ans = mid; // 满足条件，尝试更右
-                left = mid + 1;
+                ans = mid;
+                l = mid + 1;
             }
             else
             {
-                right = mid - 1;
+                r = mid - 1;
             }
         }
         return ans;
@@ -196,24 +208,26 @@ TEST(practices_binary_search_1, lastLessEqual)
 {
     // 查找最后一个 <= target 的位置
     auto lastLessEqual = [](const std::vector<int>& nums, int target) -> int {
-        int left = 0, right = nums.size() - 1;
+        const auto& arr = nums;
+        int l = 0;
+        int r = arr.size() - 1;
         int ans = -1;
-        while (left <= right)
+        while (l <= r)
         {
-            int mid = left + (right - left) / 2;
-            if (nums[mid] == target)
+            int mid = l + (r - l) / 2;
+            if (arr[mid] == target)
             {
                 ans = mid;
-                left = mid + 1;
+                l = mid + 1;
             }
-            else if (nums[mid] < target)
+            else if (arr[mid] < target)
             {
                 ans = mid;
-                left = mid + 1;
+                l = mid + 1;
             }
             else
             {
-                right = mid - 1;
+                r = mid - 1;
             }
         }
         return ans;
@@ -222,4 +236,5 @@ TEST(practices_binary_search_1, lastLessEqual)
     EXPECT_EQ(lastLessEqual(nums, 5), 2);
     EXPECT_EQ(lastLessEqual(nums, 0), -1);
     EXPECT_EQ(lastLessEqual(nums, 6), 3);
+    EXPECT_EQ(lastLessEqual(nums, 66666), nums.size() - 1);
 }
