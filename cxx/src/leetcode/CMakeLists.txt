@@ -10,7 +10,7 @@ add_executable("${TARGET_NAME}" "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp")
 set_target_properties("${TARGET_NAME}" PROPERTIES CXX_STANDARD 20
                                                   CXX_STANDARD_REQUIRED ON
                                                   CXX_EXTENSIONS OFF
-                                                  UNITY_BUILD OFF
+                                                  UNITY_BUILD ON
                                                   OUTPUT_NAME "${EXEC_NAME}"
 )
 
