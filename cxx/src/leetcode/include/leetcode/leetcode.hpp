@@ -5,7 +5,9 @@
 #include <spdlog/spdlog.h>
 
 #include <algorithm>
+#include <cctype>
 #include <cstdint>
+#include <limits>
 #include <list>
 #include <queue>
 #include <stack>

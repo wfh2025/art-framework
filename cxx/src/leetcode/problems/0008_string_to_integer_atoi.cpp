@@ -28,6 +28,12 @@ TEST(string_to_integer_atoi_8, int)
                 index++;
             }
 
+            // 前导0
+            while ((index < str.size()) && (str[index] == '0'))
+            {
+                index++;
+            }
+
             int ans = 0;
 
             if (isPositive)
