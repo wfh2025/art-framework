@@ -4,13 +4,37 @@ export PROJ_BUILD=${PROJ_ROOT}/build
 export PROJ_DEPS=${PROJ_ROOT}/deps
 export PROJ_SRC=${PROJ_ROOT}/src
 export PROJ_CMAKE=$(which cmake)
+export PROJ_CMAKE_GENERATOR="Ninja"  # Unix Makefiles
 export PROJ_CC=$(which cc)
 export PROJ_CXX=$(which c++)
+export NINJA_STATUS="[%f/%t running:%r elapsed:%es] "
+
+function time_ms() {
+    local func_name="$1"
+    local start_s start_ns end_s end_ns
+    # %s 秒，%N 纳秒(000000000‑999999999)
+    read -r start_s start_ns <<< $(date +"%s %N")
+    "$@"
+    read -r end_s end_ns <<< $(date +"%s %N")
+
+    # 转成总毫秒
+    local start_ms=$(( start_s * 1000 + ${start_ns:0:3} ))
+    local end_ms=$(( end_s * 1000 + ${end_ns:0:3} ))
+    local cost_ms=$(( end_ms - start_ms ))
+
+    local total_sec=$(( cost_ms / 1000 ))
+    local min=$(( total_sec / 60 ))
+    local sec=$(( total_sec % 60 ))
+    local ms=$(( cost_ms % 1000 ))
+
+    printf "[time] %-20s | %02d:%02d.%03d | total: %d ms\n" \
+        "${func_name}" "${min}" "${sec}" "${ms}" "${cost_ms}"
+}
 
 function build-deps() {
-    build-googletest
-    build-spdlog
-    build-ogdf
+    time_ms build-googletest
+    time_ms build-spdlog
+    time_ms build-ogdf
 }
 
 function build-ogdf() {
@@ -22,6 +46,7 @@ function build-ogdf() {
 
     ${PROJ_CMAKE} -B "${build_dir}" \
           -S "${src}" \
+          -G "${PROJ_CMAKE_GENERATOR}" \
           -DCMAKE_BUILD_TYPE=Release \
           -DCMAKE_CXX_COMPILER="${PROJ_CXX}" \
           -DCMAKE_INSTALL_PREFIX="${install_dir}" \
@@ -32,8 +57,7 @@ function build-ogdf() {
           -DOGDF_USE_ASSERT_EXCEPTIONS=ON \
           -DOGDF_SEPARATE_TESTS=OFF \
           -DOGDF_WARNING_ERRORS=OFF \
-          -DCMAKE_CXX_FLAGS="-Werror -Wno-deprecated-declarations -Wno-sign-compare -Wno-unused-variable" \
-          -DCMAKE_C_FLAGS="-Werror -Wno-deprecated-declarations -Wno-sign-compare -Wno-unused-variable" 
+          -DCMAKE_CXX_FLAGS="-Werror -Wno-deprecated-declarations -Wno-sign-compare -Wno-unused-variable"
     ${PROJ_CMAKE} --build "${PROJ_BUILD}" --parallel --target install
 
     rm -fr "${build_dir}"
@@ -58,6 +82,7 @@ function build-spdlog() {
 
     ${PROJ_CMAKE} -B "${build_dir}" \
           -S "${src}" \
+          -G "${PROJ_CMAKE_GENERATOR}" \
           -DCMAKE_BUILD_TYPE=Release \
           -DCMAKE_CXX_COMPILER="${PROJ_CXX}" \
           -DCMAKE_INSTALL_PREFIX="${install_dir}" -DSPDLOG_BUILD_SHARED=OFF
@@ -74,6 +99,7 @@ function build-googletest() {
     rm -fr "${build_dir}" "${install_dir}" && mkdir -p "${install_dir}"
     ${PROJ_CMAKE} -B "${build_dir}" \
           -S "${src}" \
+          -G "${PROJ_CMAKE_GENERATOR}" \
           -DCMAKE_BUILD_TYPE=Release \
           -DCMAKE_C_COMPILER="${PROJ_CC}" \
           -DCMAKE_CXX_COMPILER="${PROJ_CXX}" \
