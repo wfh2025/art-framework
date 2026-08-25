@@ -51,10 +51,8 @@ function build-qt() {
             -opensource \
             -confirm-license \
             -release \
-            -nomake examples -nomake tests 
-            -skip qtwebengine -skip qtquick3d -skip qtquick \
-            -skip qtdeclarative -skip qtmultimedia -skip qtlocation \
-            -skip qtconnectivity -skip qtsensors -skip qtcharts -skip qtgraphs
+            -nomake examples -nomake tests \
+            -skip qtwebengine -skip qtquick3d -skip qtquick
         ninja
         ninja install
     )
