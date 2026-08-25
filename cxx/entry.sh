@@ -37,6 +37,30 @@ function build-deps() {
     time_ms build-ogdf
 }
 
+# 调试中, 暂未成功
+function build-qt() {
+    local build_dir="${PROJ_BUILD}"
+    local install_dir="${PROJ_DEPS}/qt"
+    local src="${PROJ_ROOT}/vendor/qt-everywhere-src-6.5.9"
+
+    rm -fr "${build_dir}" "${install_dir}" && mkdir -p "${install_dir}" && mkdir -p "${build_dir}"
+
+    (
+        cd "${build_dir}"
+        "${src}/configure" -prefix "${install_dir}" \
+            -opensource \
+            -confirm-license \
+            -release \
+            -nomake examples -nomake tests 
+            -skip qtwebengine -skip qtquick3d -skip qtquick \
+            -skip qtdeclarative -skip qtmultimedia -skip qtlocation \
+            -skip qtconnectivity -skip qtsensors -skip qtcharts -skip qtgraphs
+        ninja
+        ninja install
+    )
+    rm -fr "${build_dir}"
+}
+
 function build-ogdf() {
     local build_dir="${PROJ_BUILD}"
     local install_dir="${PROJ_DEPS}/ogdf"
