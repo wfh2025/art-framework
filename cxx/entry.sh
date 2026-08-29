@@ -32,9 +32,9 @@ function time_ms() {
 }
 
 function build-deps() {
-    time_ms build-googletest
-    time_ms build-spdlog
-    time_ms build-ogdf
+    build-googletest
+    build-spdlog
+    build-ogdf
 }
 
 function build-qt-configure() {
@@ -50,10 +50,34 @@ function build-qt-configure() {
             -opensource \
             -confirm-license \
             -release -nomake tests -force-debug-info -make examples \
-            -skip qtwebengine -skip qtquick3d -skip qtquick
+            -skip qtwebengine -skip qtquick3d -skip qtquick -shared
         ninja
         ninja install
     )
+    rm -fr "${build_dir}"
+}
+
+function build-qt-cmake() {
+    local build_dir="${PROJ_BUILD}"
+    local install_dir="${PROJ_DEPS}/qt"
+    local src="${PROJ_ROOT}/vendor/qt-everywhere-src-6.5.9"
+
+    rm -fr "${build_dir}" "${install_dir}" && mkdir -p "${install_dir}"
+
+    ${PROJ_CMAKE} -B "${build_dir}" \
+          -S "${src}" \
+          -G "${PROJ_CMAKE_GENERATOR}" \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_CXX_COMPILER="${PROJ_CXX}" \
+          -DCMAKE_INSTALL_PREFIX="${install_dir}" \
+          -Wno-dev \
+          -DBUILD_SHARED_LIBS=ON \
+          -DQT_BUILD_TESTS=OFF \
+          -DQT_BUILD_EXAMPLES=ON \
+          -DBUILD_qtwebengine=OFF \
+          -DBUILD_qtquick3d=OFF
+    ${PROJ_CMAKE} --build "${build_dir}" --parallel --target install
+
     rm -fr "${build_dir}"
 }
 
@@ -78,7 +102,7 @@ function build-ogdf() {
           -DOGDF_SEPARATE_TESTS=OFF \
           -DOGDF_WARNING_ERRORS=OFF \
           -DCMAKE_CXX_FLAGS="-Werror -Wno-deprecated-declarations -Wno-sign-compare -Wno-unused-variable"
-    ${PROJ_CMAKE} --build "${PROJ_BUILD}" --parallel --target install
+    ${PROJ_CMAKE} --build "${build_dir}" --parallel --target install
 
     rm -fr "${build_dir}"
 }
@@ -106,7 +130,7 @@ function build-spdlog() {
           -DCMAKE_BUILD_TYPE=Release \
           -DCMAKE_CXX_COMPILER="${PROJ_CXX}" \
           -DCMAKE_INSTALL_PREFIX="${install_dir}" -DSPDLOG_BUILD_SHARED=OFF
-    ${PROJ_CMAKE} --build "${PROJ_BUILD}" --parallel --target install
+    ${PROJ_CMAKE} --build "${build_dir}" --parallel --target install
 
     rm -fr "${build_dir}"
 }
