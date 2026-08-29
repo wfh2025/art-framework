@@ -37,8 +37,7 @@ function build-deps() {
     time_ms build-ogdf
 }
 
-# 调试中, 暂未成功
-function build-qt() {
+function build-qt-configure() {
     local build_dir="${PROJ_BUILD}"
     local install_dir="${PROJ_DEPS}/qt"
     local src="${PROJ_ROOT}/vendor/qt-everywhere-src-6.5.9"
@@ -50,8 +49,7 @@ function build-qt() {
         "${src}/configure" -prefix "${install_dir}" \
             -opensource \
             -confirm-license \
-            -release \
-            -nomake examples -nomake tests \
+            -release -nomake tests -force-debug-info -make examples \
             -skip qtwebengine -skip qtquick3d -skip qtquick
         ninja
         ninja install
