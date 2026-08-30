@@ -50,7 +50,7 @@ function build-qt-configure() {
             -opensource \
             -confirm-license \
             -release -nomake tests -force-debug-info -make examples \
-            -skip qtwebengine -skip qtquick3d -skip qtquick -shared
+            -skip qtwebengine -skip qtquick3d -shared
         ninja
         ninja install
     )
