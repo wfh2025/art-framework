@@ -153,6 +153,43 @@ function build-googletest() {
     rm -fr "${build_dir}"
 }
 
+function build-opencv() {
+    local build_dir="${PROJ_BUILD}"
+    local install_dir="${PROJ_DEPS}/opencv"
+    local src="${PROJ_ROOT}/vendor/opencv-4.14.0"
+    local src_contrib="${PROJ_ROOT}/vendor/opencv_contrib-4.14.0/modules"
+
+    rm -fr "${build_dir}" "${install_dir}" && mkdir -p "${install_dir}"
+
+    ${PROJ_CMAKE} -B "${build_dir}" -S "${src}" \
+        -DCMAKE_INSTALL_PREFIX="${install_dir}" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_C_COMPILER="${PROJ_CC}" \
+        -DCMAKE_CXX_COMPILER="${PROJ_CXX}" \
+        -G "${PROJ_CMAKE_GENERATOR}" \
+        -Wno-dev \
+        -DWITH_FFMPEG=OFF \
+        -DBUILD_opencv_python_bindings_generator=OFF \
+        -DBUILD_opencv_python_tests=OFF \
+        -DBUILD_JAVA=OFF \
+        -DBUILD_opencv_java_bindings_generator=OFF \
+        -DBUILD_PERF_TESTS=OFF \
+        -DBUILD_TESTS=OFF \
+        -DOPENCV_TEST_DNN_TFLITE=OFF \
+        -DOPENCV_TEST_DNN_CANN=OFF \
+        -DOPENCV_TEST_DNN_OPENVINO=OFF \
+        -DOPENCV_TEST_DNN_TIMVX=OFF \
+        -DINSTALL_TESTS=OFF \
+        -DBUILD_opencv_js=OFF \
+        -DBUILD_opencv_js_bindings_generator=OFF \
+        -DOPENCV_OSX_USE_ACCELERATE_NEW_LAPACK=ON \
+        -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations -Wno-unused-result" \
+        -DOPENCV_EXTRA_MODULES_PATH="${src_contrib}"
+
+    ${PROJ_CMAKE} --build "${build_dir}" --parallel --target install
+    rm -fr "${build_dir}"
+}
+
 function main() {
     local funcName="$1"
     shift
