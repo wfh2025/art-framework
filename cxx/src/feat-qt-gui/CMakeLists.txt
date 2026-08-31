@@ -1,5 +1,5 @@
-set(TARGET_NAME "tgt-feat-qt-api")
-set(EXEC_NAME "bin-feat-qt-api")
+set(TARGET_NAME "tgt-feat-qt-gui")
+set(EXEC_NAME "bin-feat-qt-gui")
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)

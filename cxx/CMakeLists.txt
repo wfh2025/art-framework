@@ -8,5 +8,6 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${OUTPUT_PREFIX}/lib")
 set(ART_CXX_DEPS_DIR "${CMAKE_SOURCE_DIR}/deps")
 
 add_subdirectory(src/feat-qt-api)
+add_subdirectory(src/feat-qt-gui)
 add_subdirectory(src/feat-cxx)
 add_subdirectory(src/leetcode)

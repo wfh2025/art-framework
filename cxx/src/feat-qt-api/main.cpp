@@ -1,17 +1,50 @@
-#include <QCoreApplication>
-#include <QDebug>
-#include <QtGlobal>
+#include <string>
+#include <vector>
 
-int main(int argc, char* argv[])
+#include "gmock/gmock.h"
+#include "gtest/gtest.h"
+#include "spdlog/spdlog.h"
+
+struct TestCaseId
 {
-    QCoreApplication app(argc, argv);
+    std::string testSuiteName;
+    std::string testName;
+    TestCaseId(std::string suit, std::string name) : testSuiteName(suit), testName(name) {}
+};
 
-    qInfo() << "Qt Version:" << QT_VERSION_STR;
-    qInfo() << "Running on:" << QSysInfo::prettyProductName();
+static std::vector<TestCaseId> g_runCases = {
+    {"*", "*"},
+};
 
-    // 验证核心库功能：使用 QString
-    QString message = "Qt Core works!";
-    qInfo() << message;
+static void runCases()
+{
+    if (g_runCases.empty())
+    {
+        return;
+    }
+    std::string rule = "";
+    for (const TestCaseId& caseId : g_runCases)
+    {
+        std::string item = caseId.testSuiteName + "." + caseId.testName;
+        if (!rule.empty())
+        {
+            rule.append(":");
+        }
+        rule.append(item);
+    }
+    ::testing::GTEST_FLAG(filter) = rule;
+}
 
-    return 0;
+static void initLog()
+{
+    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%P] [%t] [%s:%#] [%^%l%$] %v");
+    spdlog::set_level(spdlog::level::debug);
+}
+
+int main(int argc, char** argv)
+{
+    initLog();
+    ::testing::InitGoogleTest(&argc, argv);
+    runCases();
+    return RUN_ALL_TESTS();
 }
