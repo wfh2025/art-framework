@@ -20,13 +20,13 @@ generate: clean
 	-G "${PROJ_CMAKE_GENERATOR}" \
 	-DCMAKE_C_COMPILER="${PROJ_CC}" \
 	-DCMAKE_CXX_COMPILER="${PROJ_CXX}" \
-	-DCMAKE_MESSAGE_LOG_LEVEL=FATAL_ERROR 
+	-DCMAKE_MESSAGE_LOG_LEVEL=FATAL_ERROR -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 deps: clean
 	${RM} "${DEPS_DIR}" && mkdir -p "${DEPS_DIR}" && ${PROJ_DIR}/entry.sh time_ms build-deps
 clean:
 	${RM} "${BUILD_DIR}"
 run: build
-	DYLD_LIBRARY_PATH=${BUILD_DIR}/lib ${BUILD_DIR}/bin/bin-leetcode
+	DYLD_LIBRARY_PATH=${BUILD_DIR}/lib ${BUILD_DIR}/bin/bin-feat-qt-api
 gdb: build
 	DYLD_LIBRARY_PATH=${BUILD_DIR}/lib lldb ${BUILD_DIR}/bin/bin-leetcode
 print-%:
