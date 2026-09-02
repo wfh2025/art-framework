@@ -26,7 +26,7 @@ deps: clean
 clean:
 	${RM} "${BUILD_DIR}"
 run: build
-	DYLD_LIBRARY_PATH=${BUILD_DIR}/lib ${BUILD_DIR}/bin/bin-feat-qt-api
+	DYLD_LIBRARY_PATH=${BUILD_DIR}/lib ${BUILD_DIR}/bin/bin-feat-qt-gui
 gdb: build
 	DYLD_LIBRARY_PATH=${BUILD_DIR}/lib lldb ${BUILD_DIR}/bin/bin-leetcode
 print-%:

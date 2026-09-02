@@ -1,15 +1,11 @@
-#include <QDebug>
-#include <QGuiApplication>
-#include <QWindow>
+#include <QApplication>
+
+#include "MainWindow.h"
 
 int main(int argc, char* argv[])
 {
-    QGuiApplication app(argc, argv);
-
-    QWindow window;
-    window.setTitle("Qt GUI Test");
-    window.resize(400, 300);
-    window.show();
-
+    QApplication app(argc, argv);
+    MainWindow w;
+    w.show();
     return app.exec();
 }
