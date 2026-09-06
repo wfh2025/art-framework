@@ -1,5 +1,5 @@
-set(TARGET_NAME "tgt-feat-qt-gui")
-set(EXEC_NAME "bin-feat-qt-gui")
+set(TARGET_NAME "tgt-feat-qt-designer-gui")
+set(EXEC_NAME "bin-feat-qt-designer-gui")
 
 find_program(CMAKE_AUTOMOC_EXECUTABLE NAMES moc HINTS "${ART_CXX_DEPS_DIR}/qt" PATH_SUFFIXES libexec bin NO_DEFAULT_PATH)
 find_program(CMAKE_AUTOUIC_EXECUTABLE NAMES uic HINTS "${ART_CXX_DEPS_DIR}/qt" PATH_SUFFIXES libexec bin NO_DEFAULT_PATH)
@@ -14,26 +14,28 @@ find_package(GTest CONFIG REQUIRED PATHS "${ART_CXX_DEPS_DIR}/googletest" NO_DEF
 find_package(spdlog CONFIG REQUIRED PATHS "${ART_CXX_DEPS_DIR}/spdlog" NO_DEFAULT_PATH)
 find_package(Qt6 CONFIG REQUIRED PATHS "${ART_CXX_DEPS_DIR}/qt" NO_DEFAULT_PATH COMPONENTS Core Gui Widgets Network)
 
+set(QT_UI_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ui")
 
-
-add_executable("${TARGET_NAME}" "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp")
+qt_add_executable("${TARGET_NAME}" "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp")
 set_target_properties("${TARGET_NAME}" PROPERTIES CXX_STANDARD 20
                                                   CXX_STANDARD_REQUIRED ON
                                                   CXX_EXTENSIONS OFF
                                                   UNITY_BUILD OFF
                                                   OUTPUT_NAME "${EXEC_NAME}"
+                                                  AUTOUIC_SEARCH_PATHS "${QT_UI_DIR}"
 )
 
-target_include_directories("${TARGET_NAME}" PRIVATE "${CMAKE_SOURCE_DIR}"
+target_include_directories("${TARGET_NAME}" PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_SOURCE_DIR}"
 )
 
-file(GLOB PRACTICES_FILES CONFIGURE_DEPENDS 
+file(GLOB CUR_DIR_SRC_FILES CONFIGURE_DEPENDS 
     "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/*.cxx"
+    "${QT_UI_DIR}/*.ui"
 )
-target_sources("${TARGET_NAME}" PRIVATE ${PRACTICES_FILES}
+target_sources("${TARGET_NAME}" PRIVATE ${CUR_DIR_SRC_FILES}
 )
 
 target_compile_definitions("${TARGET_NAME}" PRIVATE
