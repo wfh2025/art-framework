@@ -1,6 +1,8 @@
 #include "DataWorker.h"
 
-#include <QThread> // 如果没有这行会报 incomplete type 错误
+#include <QObject>
+#include <QStringList>
+#include <QThread>
 
 DataWorker::DataWorker(QObject* parent) : QObject(parent) {}
 

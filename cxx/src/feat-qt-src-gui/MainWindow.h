@@ -1,12 +1,12 @@
 #pragma once
+#include <QLineEdit>
+#include <QListWidget>
 #include <QMainWindow>
+#include <QProgressBar>
+#include <QPushButton>
 #include <QThread>
 
-class QListWidget;
-class QLineEdit;
-class QPushButton;
-class QProgressBar;
-class DataWorker;
+#include "DataWorker.h"
 
 class MainWindow : public QMainWindow
 {

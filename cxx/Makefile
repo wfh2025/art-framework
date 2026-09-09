@@ -27,7 +27,7 @@ deps: clean ## 构建依赖
 clean:  ## 删除临时目录
 	${RM} "${BUILD_DIR}"
 run: build ## 运行
-	DYLD_LIBRARY_PATH=${BUILD_DIR}/lib:${DEPS_DIR}/qt/lib DYLD_FRAMEWORK_PATH=${DEPS_DIR}/qt/lib ${BUILD_DIR}/bin/bin-feat-qt-designer-gui
+	DYLD_LIBRARY_PATH=${BUILD_DIR}/lib:${DEPS_DIR}/qt/lib DYLD_FRAMEWORK_PATH=${DEPS_DIR}/qt/lib ${BUILD_DIR}/bin/bin-feat-qt-src-gui
 gdb: build ## 调试
 	DYLD_LIBRARY_PATH=${BUILD_DIR}/lib lldb ${BUILD_DIR}/bin/bin-leetcode
 print-%: ## 打印变量
