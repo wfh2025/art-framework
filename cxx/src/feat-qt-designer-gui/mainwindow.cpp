@@ -1,10 +1,8 @@
 #include "mainwindow.h"
 
-#include "ui_mainwindow.h"
-
-MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindowA)
 {
-    ui->setupUi(this); // 这行代码会把你在 Designer 里拖的界面加载进来
+    ui->setupUi(this);
 }
 
 MainWindow::~MainWindow()
