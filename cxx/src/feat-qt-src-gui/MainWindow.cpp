@@ -12,26 +12,25 @@
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), worker(nullptr)
 {
+    SPDLOG_INFO("MainWindow::MainWindow");
     setupUi();
 
     // 初始化后台工作对象
     worker = new DataWorker();
     worker->moveToThread(&workerThread);
-
-    // 连接工作信号到界面槽
     connect(worker, &DataWorker::progressChanged, this, [this](int current, int total) {
         progressBar->setMaximum(total);
         progressBar->setValue(current);
     });
-    connect(worker, &DataWorker::finished, this, &MainWindow::onWorkerFinished);
 
-    // 后台处理完成时，自动退出线程
+    connect(worker, &DataWorker::finished, this, &MainWindow::onWorkerFinished);
     connect(worker, &DataWorker::finished, &workerThread, &QThread::quit);
     connect(&workerThread, &QThread::finished, worker, &QObject::deleteLater);
 }
 
 MainWindow::~MainWindow()
 {
+    SPDLOG_INFO("MainWindow::~MainWindow");
     if (workerThread.isRunning())
     {
         workerThread.quit();
@@ -41,10 +40,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupUi()
 {
+    SPDLOG_INFO("MainWindow::setupUi");
     auto* centralWidget = new QWidget(this);
     auto* mainLayout = new QVBoxLayout(centralWidget);
 
-    // 输入区域
     auto* inputLayout = new QHBoxLayout();
     taskInput = new QLineEdit(this);
     taskInput->setPlaceholderText("请输入任务名称...");
@@ -79,6 +78,7 @@ void MainWindow::setupUi()
 
 void MainWindow::onAddTask()
 {
+    SPDLOG_INFO("MainWindow::onAddTask");
     QString text = taskInput->text().trimmed();
     if (!text.isEmpty())
     {
@@ -89,11 +89,13 @@ void MainWindow::onAddTask()
 
 void MainWindow::onRemoveTask()
 {
+    SPDLOG_INFO("MainWindow::onRemoveTask");
     delete taskList->currentItem();
 }
 
 void MainWindow::onStartProcessing()
 {
+    SPDLOG_INFO("MainWindow::onStartProcessing");
     QStringList tasks;
     for (int i = 0; i < taskList->count(); ++i)
     {
@@ -106,7 +108,6 @@ void MainWindow::onStartProcessing()
         return;
     }
 
-    // 禁用界面防止重复点击
     startButton->setEnabled(false);
     addButton->setEnabled(false);
     removeButton->setEnabled(false);
@@ -119,7 +120,7 @@ void MainWindow::onStartProcessing()
 
 void MainWindow::onWorkerFinished(const QString& message)
 {
-    // 恢复界面状态
+    SPDLOG_INFO("MainWindow::onWorkerFinished");
     progressBar->setValue(progressBar->maximum());
     startButton->setEnabled(true);
     addButton->setEnabled(true);

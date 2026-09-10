@@ -1,4 +1,6 @@
 #pragma once
+#include <spdlog/spdlog.h>
+
 #include <QObject>
 #include <QString>
 #include <QStringList>
