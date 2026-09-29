@@ -34,7 +34,6 @@ function time_ms() {
 function build-deps() {
     build-googletest
     build-spdlog
-    build-ogdf
 }
 
 function build-qt-configure() {

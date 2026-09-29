@@ -2,7 +2,6 @@ set(TARGET_NAME "tgt-leetcode")
 set(EXEC_NAME "bin-leetcode")
 
 find_package(Threads REQUIRED)
-find_package(OGDF CONFIG REQUIRED PATHS "${ART_CXX_DEPS_DIR}/ogdf" NO_DEFAULT_PATH)
 find_package(GTest CONFIG REQUIRED PATHS "${ART_CXX_DEPS_DIR}/googletest" NO_DEFAULT_PATH)
 find_package(spdlog CONFIG REQUIRED PATHS "${ART_CXX_DEPS_DIR}/spdlog" NO_DEFAULT_PATH)
 
@@ -19,12 +18,6 @@ target_include_directories("${TARGET_NAME}" PRIVATE "${CMAKE_SOURCE_DIR}"
                                          
 )
 
-file(GLOB MVP_FILES CONFIGURE_DEPENDS 
-    "${CMAKE_CURRENT_SOURCE_DIR}/mvp/*.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/mvp/*.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/mvp/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/mvp/*.cxx"
-)
 file(GLOB PROBLEMS_FILES CONFIGURE_DEPENDS 
     "${CMAKE_CURRENT_SOURCE_DIR}/problems/*.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/problems/*.hpp"
@@ -37,17 +30,8 @@ file(GLOB TESTDATA_FILES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/testdata/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/testdata/*.cxx"
 )
-file(GLOB PRACTICES_FILES CONFIGURE_DEPENDS 
-    "${CMAKE_CURRENT_SOURCE_DIR}/practices/*.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/practices/*.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/practices/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/practices/*.cxx"
-)
-target_sources("${TARGET_NAME}" PRIVATE ${MVP_FILES}
-                                        ${PRACTICES_FILES}
-                                        ${PROBLEMS_FILES}
+target_sources("${TARGET_NAME}" PRIVATE ${PROBLEMS_FILES}
                                         ${TESTDATA_FILES}
-                                        
 )
 
 target_compile_definitions("${TARGET_NAME}" PRIVATE
@@ -65,5 +49,4 @@ target_link_libraries("${TARGET_NAME}" PRIVATE Threads::Threads
                                                GTest::gtest
                                                GTest::gmock
                                                spdlog::spdlog
-                                               OGDF
 )
